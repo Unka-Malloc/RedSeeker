@@ -14,14 +14,15 @@ if __name__ == '__main__':
     count = 0
     cache = []
 
-    note_visited = r"T:\DataStore\note_visited_by_image_original.json"
+    note_visited = r"R:\DataStore\note_visited_by_image_original.json"
 
     if os.path.exists(note_visited):
         with open(note_visited, mode='r', encoding='utf-8') as file:
             cache = json.load(file)
             print(f"Loaded: {cache}")
 
-    note_page_root = r"T:\DataStore\raw\api\sns\v1\note\feed"
+    note_page_root = r"R:\DataStore\raw\api\sns\v1\note\feed"
+    storage = r"R:\DataStore\image_original"
 
     for note_id in os.listdir(note_page_root):
         time_start = time.time()
@@ -42,7 +43,7 @@ if __name__ == '__main__':
                                 for img in note['images_list']:
                                     img_id = img['fileid']
 
-                                    target_file = fr"T:\DataStore\image_original\{img_id}.jpg"
+                                    target_file = fr"{storage}\{img_id}.jpg"
                                     if os.path.exists(target_file):
                                         try:
                                             im = Image.open(target_file)
@@ -60,7 +61,7 @@ if __name__ == '__main__':
                                             print(f"[Image] Requested: {img_url}")
 
                                             if r.ok:
-                                                with open(fr"T:/DataStore/image_original/{img_id}.jpg", "wb") as f:
+                                                with open(fr"{storage}/{img_id}.jpg", "wb") as f:
                                                     f.write(r.content)
                                                     img_size += len(r.content)
                                                     print(f"[Image] Downloaded: {img_id}.jpg")
